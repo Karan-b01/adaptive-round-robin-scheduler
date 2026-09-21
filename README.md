@@ -1,125 +1,93 @@
 # Adaptive Round Robin CPU Scheduling Simulator
 
-<p align="center">
-  <strong>An Interactive CPU Scheduling Simulator for Operating Systems</strong>
-</p>
+An interactive, browser-based simulator for comparing traditional Round Robin (RR) scheduling with an adaptive Round Robin (ARR) policy. It is designed for operating-systems learning, experimentation, and demonstrations.
 
-<p align="center">
-  Compare Traditional Round Robin with Adaptive Round Robin through interactive
-  simulation, Gantt charts, scheduling metrics, and scheduler visualization.
-</p>
+## Overview
 
----
+The simulator runs the same workload through two preemptive scheduling policies and presents their execution timelines and performance metrics side by side:
 
-## 📌 Overview
+- **Round Robin (RR):** uses a fixed time quantum.
+- **Adaptive Round Robin (ARR):** calculates a quantum from the median remaining burst time of the ready queue, constrained by configurable minimum and maximum bounds.
 
-**Adaptive Round Robin CPU Scheduling Simulator** is an interactive web-based
-Operating Systems project developed to simulate and analyze CPU scheduling
-using two approaches:
+Use it to explore how arrival times, CPU bursts, quantum choices, and context-switch cost affect scheduling outcomes. ARR is a workload-dependent heuristic; the simulator reports measured results rather than assuming one policy is always better.
 
-- **Traditional Round Robin (RR)**
-- **Adaptive Round Robin (ARR)**
+## Features
 
-Traditional Round Robin uses a fixed Time Quantum for every process, whereas
-Adaptive Round Robin dynamically adjusts the Time Quantum according to the
-current workload.
+- Create, edit, remove, randomize, or load preset process workloads.
+- Configure fixed RR quantum, ARR quantum bounds, and context-switch cost.
+- Compare RR and ARR Gantt charts, per-process metrics, and aggregate metrics.
+- Inspect a scheduler trace one step at a time or with automatic playback.
+- Visualize ready-queue state, dynamic quantum selection, idle periods, and context-switch (`CS`) overhead.
+- Review completion, turnaround, waiting, and response times.
+- Compare CPU utilization, throughput, averages, and context-switch counts.
+- Export simulation metrics as CSV.
 
-The simulator allows users to create and modify processes, configure
-scheduling parameters, run simulations, visualize execution using Gantt charts,
-inspect scheduler decisions, and compare important CPU scheduling metrics.
+## Run Locally
 
-The project is designed primarily for **Operating Systems education,
-algorithm visualization, experimentation, and academic demonstration**.
+This is a dependency-free static web application. No build step or package installation is required.
 
----
+1. Open [index.html](index.html) in a modern web browser.
+2. Define a workload and scheduling settings.
+3. Select **Run simulation** to compare the two policies.
 
-## 🎯 Project Objectives
+For the most reliable local-development experience, serve the directory with any static file server and open its local URL.
 
-The main objectives of this project are:
+## How the Simulation Works
 
-- Understand the working principle of Round Robin scheduling.
-- Demonstrate an adaptive Time Quantum mechanism.
-- Compare fixed and adaptive Round Robin scheduling.
-- Visualize process execution through Gantt charts.
-- Calculate and compare CPU scheduling metrics.
-- Study the effect of context-switch overhead.
-- Observe how workload characteristics affect scheduling behaviour.
-- Provide an interactive learning environment for CPU scheduling concepts.
+### Traditional Round Robin
 
----
-
-## ✨ Key Features
-
-### Process Configuration
-
-- Add and edit processes.
-- Configure:
-  - Process ID
-  - Arrival Time
-  - Burst Time
-- Generate randomized workloads.
-- Use predefined workload presets.
-
-### Scheduling Algorithms
-
-#### Traditional Round Robin
-
-- Uses a fixed Time Quantum.
-- Preemptive scheduling.
-- Processes are executed according to the ready-queue order.
-- Unfinished processes are placed at the back of the queue.
-
-#### Adaptive Round Robin
-
-- Dynamically calculates the Time Quantum.
-- Uses the median of remaining burst times.
-- Supports configurable minimum and maximum quantum bounds.
-- Maintains the Round Robin ready-queue discipline.
-
-### Visualization
-
-- Side-by-side Gantt charts.
-- Process execution timeline.
-- Ready Queue visualization.
-- Scheduler step-through mode.
-- Previous / Next scheduler states.
-- Automatic scheduler playback.
-- Dynamic quantum visualization.
-- Context-switch (`CS`) visualization.
-
-### Performance Analysis
-
-The simulator calculates:
-
-- Completion Time (CT)
-- Turnaround Time (TAT)
-- Waiting Time (WT)
-- Response Time (RT)
-- Average Waiting Time
-- Average Turnaround Time
-- Average Response Time
-- CPU Utilization
-- Throughput
-- Context Switches
-
-### Additional Features
-
-- Mixed workload preset.
-- Short-job workload.
-- Long-job workload.
-- Staggered-arrival workload.
-- Same-burst workload.
-- High context-switch workload.
-- Random workload generation.
-- Metric comparison chart.
-- Workload-specific interpretation.
-- CSV metrics export.
-
----
-
-# ⚙️ Adaptive Round Robin Algorithm
-
-Traditional Round Robin uses a fixed Time Quantum:
+RR selects the next process from the ready queue and runs it for:
 
 ```text
-Time Quantum = Constant
+min(fixed quantum, remaining burst time)
+```
+
+If the process is unfinished, it is returned to the end of the ready queue.
+
+### Adaptive Round Robin
+
+Before each dispatch, ARR derives its quantum from the processes currently in the ready queue:
+
+```text
+quantum = clamp(median(remaining burst times), minimum quantum, maximum quantum)
+```
+
+It then follows the same ready-queue discipline as RR. For an even number of values, the simulator uses the ceiling of the middle-pair average.
+
+### Context-Switch Cost
+
+A context switch is recorded when execution moves directly from one process to a different process. When a positive switch cost is configured, the corresponding overhead is added to the timeline as a `CS` segment. CPU utilization is calculated from total process burst time divided by total elapsed simulation time, including idle and overhead time.
+
+## Metrics
+
+For each process, the simulator reports:
+
+| Metric | Meaning |
+| --- | --- |
+| Completion Time (CT) | Time at which the process finishes. |
+| Turnaround Time (TAT) | `completion time - arrival time` |
+| Waiting Time (WT) | `turnaround time - burst time` |
+| Response Time (RT) | `first start time - arrival time` |
+
+It also reports average waiting, turnaround, and response times, along with CPU utilization, throughput, and total context switches.
+
+## Project Structure
+
+```text
+.
+├── index.html       # Application markup
+├── styles.css       # Primary layout and component styles
+├── dark-theme.css   # Dark-theme styling
+├── effects.css      # Visual effects and animations
+└── app.js           # Simulation, rendering, playback, and CSV export logic
+```
+
+## Notes
+
+- Inputs require unique process IDs, non-negative integer arrival times, and positive integer burst times.
+- Quantum values and context-switch cost must be whole numbers; ARR's maximum quantum must be at least its minimum quantum.
+- Results are specific to the selected workload and configuration.
+
+## License
+
+No license is currently specified. Add a license file before distributing or reusing this project outside its intended scope.
