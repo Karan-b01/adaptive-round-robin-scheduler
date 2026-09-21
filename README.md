@@ -26,9 +26,21 @@ Use it to explore how arrival times, CPU bursts, quantum choices, and context-sw
 
 This is a dependency-free static web application. No build step or package installation is required.
 
-1. Open [index.html](index.html) in a modern web browser.
-2. Define a workload and scheduling settings.
-3. Select **Run simulation** to compare the two policies.
+### Option 1: Open directly
+
+Open [index.html](index.html) in a modern web browser.
+
+### Option 2: Run a local server
+
+If Python 3 is installed, run:
+
+```bash
+python server.py
+```
+
+Then visit `http://localhost:8000`. To choose a different port, pass it as an argument, such as `python server.py 3000`.
+
+After opening the app, define a workload and scheduling settings, then select **Run simulation** to compare the policies.
 
 For the most reliable local-development experience, serve the directory with any static file server and open its local URL.
 
@@ -79,7 +91,8 @@ It also reports average waiting, turnaround, and response times, along with CPU 
 ├── styles.css       # Primary layout and component styles
 ├── dark-theme.css   # Dark-theme styling
 ├── effects.css      # Visual effects and animations
-└── app.js           # Simulation, rendering, playback, and CSV export logic
+├── app.js           # Simulation, rendering, playback, and CSV export logic
+└── server.py         # Optional local Python web-server launcher
 ```
 
 ## Notes
