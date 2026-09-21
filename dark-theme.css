@@ -1,0 +1,17 @@
+:root { --ink:#ecf4fb; --muted:#9aafc0; --line:#294257; --paper:#08131f; --card:#102131; --blue:#58a6ff; --teal:#39d5c3; --amber:#ffc35c; --red:#ff7b72; }
+body { background:radial-gradient(circle at 7% 0,#10384a 0,transparent 28rem),radial-gradient(circle at 97% 42%,#182550 0,transparent 27rem),var(--paper); }
+.hero { background:linear-gradient(120deg,#07141f,#102c47); border-bottom-color:var(--teal); }
+.hero-stat { background:#ffffff0a; border-color:#ffffff1b; }.hero-stat small,.subtitle { color:#a8c1d2; }
+.card,.algorithm-card { background:linear-gradient(145deg,#102333,#0d1c2a); border-color:var(--line); box-shadow:0 8px 22px #00000035; }
+.card:hover,.algorithm-card:hover { box-shadow:0 15px 32px #00000055; }.input-card { background:linear-gradient(145deg,#12283a,#0d1c2a); }
+.ghost { background:#142b3d; color:#c9dae7; border-color:#355269; }.ghost:hover { background:#183650; border-color:var(--blue); color:#91c8ff; }
+input { background:#091724; color:var(--ink); border-color:#345167; } input:focus { border-color:var(--blue); box-shadow:0 0 0 3px #58a6ff22; }
+th { color:#90aabf; } td { border-top-color:#294257; }.add-button { background:#12304a; color:#8ac7ff; }.delete { color:#ff8b83; }
+.summary { background:#102d49; border-left-color:var(--blue); }.summary.teal { background:#103b3e; border-left-color:var(--teal); }.summary.amber { background:#3a301c; border-left-color:var(--amber); }
+.summary-label,.summary-note,.gantt-caption,.bar-value { color:#9db1c2; }.chart-card,.conclusion-card,.efficiency-card { background:linear-gradient(145deg,#102333,#0c1c2b); }
+.interpretation-card { background:linear-gradient(145deg,#12384e,#14304c); }.config-summary span { background:#ffffff12; color:#c6e9e6; }
+.average,.live-item,.impact-point { background:#0b1b29; border-color:#294257; color:#aabecd; }.average b,.live-item b { color:#8ca6ba; }.impact-point b { color:#e8f3fb; }
+.gantt { background:#263b4c; }.slice { border-right-color:#0b1926; }.slice small { color:#8ea8bb; }.metric-table td { border-top-color:#294257; }
+.tab { color:#9eb3c4; }.tab.active { color:#90c8ff; background:#12304a; }.playback-tabs { border-bottom-color:#294257; }.progress-track { background:#284052; }
+.result-mark { background:#10403e; color:#75ebdc; }.donut>div { background:#102131; }.donut span { color:#9db1c2; }.efficiency-legend { color:#aabecd; }.efficiency-legend b { color:#ecf4fb; }
+footer { border-top-color:#294257; color:#90a8ba; }.empty-state h2 { color:#ecf4fb; }.empty-state { color:#9eb3c4; }

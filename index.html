@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ARR Lab | CPU Scheduling Simulator</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="effects.css" />
+  </head>
+  <body>
+    <header class="hero">
+      <div>
+        <p class="eyebrow">OPERATING SYSTEMS LAB</p>
+        <h1>Adaptive Round Robin</h1>
+        <p class="subtitle">A workload-aware CPU scheduling simulator</p>
+      </div>
+      <div class="hero-stat"><span>●</span> Interactive experiment lab<br /><small>Compare · Explain · Export</small></div>
+    </header>
+
+    <main>
+      <section class="card input-card">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">01 / WORKLOAD</p>
+            <h2>Process queue</h2>
+          </div>
+          <div class="sample-actions">
+            <button class="ghost" data-sample="mixed">Mixed</button>
+            <button class="ghost" data-sample="short">Short jobs</button>
+            <button class="ghost" data-sample="staggered">Staggered</button>
+            <button class="ghost" id="randomWorkload">✦ Generate</button>
+          </div>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Process ID</th><th>Arrival time</th><th>Burst time</th><th></th></tr></thead>
+            <tbody id="processRows"></tbody>
+          </table>
+        </div>
+        <button id="addProcess" class="add-button">+ Add process</button>
+        <div class="config-grid">
+          <label>Fixed RR quantum<input id="fixedQuantum" type="number" min="1" value="3" /></label>
+          <label>ARR minimum quantum<input id="minQuantum" type="number" min="1" value="2" /></label>
+          <label>ARR maximum quantum<input id="maxQuantum" type="number" min="1" value="8" /></label>
+          <label>Context switch cost<input id="switchCost" type="number" min="0" value="0" /></label>
+          <button id="runSimulation" class="run-button">Run comparison <span>→</span></button>
+        </div>
+        <p id="errorMessage" class="error" aria-live="polite"></p>
+      </section>
+
+      <section id="emptyState" class="empty-state">
+        <div class="empty-icon">⌁</div>
+        <h2>Ready to schedule</h2>
+        <p>Set up a workload, then compare traditional Round Robin with the adaptive median-based policy.</p>
+      </section>
+
+      <section id="results" class="results hidden">
+        <div class="results-heading">
+          <div><p class="eyebrow">02 / RESULTS</p><h2>Scheduling comparison</h2></div>
+          <button id="exportCsv" class="ghost export">↓ Export metrics CSV</button>
+        </div>
+        <div class="summary-grid" id="summaryCards"></div>
+        <section class="insight-grid">
+          <article class="card chart-card">
+            <div class="section-heading"><div><p class="eyebrow">METRIC VISUALIZER</p><h2>Performance comparison</h2></div><span class="chart-key"><i></i> RR <i class="arr-key"></i> ARR</span></div>
+            <div id="comparisonChart" class="bar-chart"></div>
+          </article>
+          <article class="card interpretation-card">
+            <p class="eyebrow">EXPERIMENT FINDING</p>
+            <h2 id="findingTitle">Run a workload to inspect it.</h2>
+            <p id="findingText">The simulator reports measured outcomes only—Adaptive RR is not assumed to be universally better.</p>
+            <div id="configSummary" class="config-summary"></div>
+          </article>
+        </section>
+        <section class="outcome-grid">
+          <article class="card conclusion-card">
+            <div class="section-heading"><div><p class="eyebrow">04 / EXPERIMENT CONCLUSION</p><h2 id="conclusionTitle">Measured conclusion</h2></div><span class="result-mark">✓ Evidence based</span></div>
+            <p id="conclusionText" class="conclusion-text"></p>
+            <div id="impactPoints" class="impact-points"></div>
+          </article>
+          <article class="card efficiency-card">
+            <p class="eyebrow">CPU EFFICIENCY GRAPH</p>
+            <h2>Adaptive execution profile</h2>
+            <div class="efficiency-body"><div id="efficiencyDonut" class="donut"><div><b id="utilizationValue">0%</b><span>CPU busy</span></div></div><div id="efficiencyLegend" class="efficiency-legend"></div></div>
+          </article>
+        </section>
+        <div class="algorithm-grid">
+          <article class="algorithm-card" id="rrResults"></article>
+          <article class="algorithm-card adaptive" id="arrResults"></article>
+        </div>
+        <section class="card steps-card">
+          <div class="section-heading"><div><p class="eyebrow">03 / LIVE DEMONSTRATION</p><h2>Scheduler step-through</h2></div><div class="playback-controls"><button id="resetPlayback" class="ghost">↺ Reset</button><button id="previousStep" class="ghost">←</button><button id="nextStep" class="run-button">Next step →</button><button id="autoPlay" class="ghost">▶ Auto play</button></div></div>
+          <div class="playback-tabs"><button class="tab active" data-playback="arr">Adaptive RR</button><button class="tab" data-playback="rr">Traditional RR</button></div>
+          <div id="liveState" class="live-state"></div>
+          <div class="progress-track"><div id="progressFill" class="progress-fill"></div></div>
+          <div id="trace" class="trace"></div>
+        </section>
+      </section>
+      <section class="os-slider card" aria-label="Operating systems learning carousel">
+        <div class="section-heading">
+          <div><p class="eyebrow">OS QUICK REVISION</p><h2>Question, answer, insight</h2></div>
+          <div class="slider-controls"><button id="previousInsight" class="ghost" aria-label="Previous insight">←</button><button id="nextInsight" class="ghost" aria-label="Next insight">→</button></div>
+        </div>
+        <div id="insightSlide" class="insight-slide" aria-live="polite"></div>
+        <div id="insightDots" class="insight-dots" aria-label="Choose an insight"></div>
+      </section>
+    </main>
+    <footer>ARR Lab · Median remaining-burst quantum, bounded by configured limits</footer>
+    <script src="app.js"></script>
+  </body>
+</html>
