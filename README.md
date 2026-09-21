@@ -24,15 +24,9 @@ Use it to explore how arrival times, CPU bursts, quantum choices, and context-sw
 
 ## Run Locally
 
-This is a dependency-free static web application. No build step or package installation is required.
+This is a dependency-free static web application. No build step or package installation is required. Because the JavaScript is organized as browser modules, serve the directory over HTTP rather than opening the HTML file directly.
 
-### Option 1: Open directly
-
-Open [index.html](index.html) in a modern web browser.
-
-### Option 2: Run a local server
-
-If Python 3 is installed, run:
+If Python 3 is installed, start the included local server:
 
 ```bash
 python server.py
@@ -40,9 +34,11 @@ python server.py
 
 Then visit `http://localhost:8000`. To choose a different port, pass it as an argument, such as `python server.py 3000`.
 
-After opening the app, define a workload and scheduling settings, then select **Run simulation** to compare the policies.
+After opening the app, define a workload and scheduling settings, then select **Run simulation** to compare the policies. Any static-file server can be used instead.
 
-For the most reliable local-development experience, serve the directory with any static file server and open its local URL.
+## Deploy on GitHub Pages
+
+Push the repository to GitHub, then enable **GitHub Pages** from the repository's **Settings > Pages** section. Select the branch containing `index.html` as the deployment source. No server-side code is required: GitHub Pages serves the HTML, CSS, and JavaScript modules directly.
 
 ## How the Simulation Works
 
@@ -91,7 +87,12 @@ It also reports average waiting, turnaround, and response times, along with CPU 
 ├── styles.css       # Primary layout and component styles
 ├── dark-theme.css   # Dark-theme styling
 ├── effects.css      # Visual effects and animations
-├── app.js           # Simulation, rendering, playback, and CSV export logic
+├── js/              # Modular application source code
+│   ├── main.js      # Application coordinator and event wiring
+│   ├── scheduler/   # Pure RR/ARR simulation logic
+│   ├── ui/          # DOM rendering and interaction components
+│   ├── utils/       # Validation, metrics, and CSV export helpers
+│   └── data/        # Preset workloads and OS insights
 └── server.py         # Optional local Python web-server launcher
 ```
 
